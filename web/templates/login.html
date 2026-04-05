@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - RVM客户服务系统</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .login-body {
+            padding: 40px 30px;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .system-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .system-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .demo-accounts {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .demo-accounts h6 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .demo-accounts ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .demo-accounts li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <div class="system-name">
+                RVM客户服务系统
+            </div>
+            <div class="system-description">
+                HMA Digital - MyGreenPlus
+            </div>
+        </div>
+        
+        <div class="login-body">
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+            
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        <i class="fas fa-user me-1"></i> 用户名
+                    </label>
+                    <input type="text" class="form-control" id="username" name="username" 
+                           placeholder="输入用户名" required autofocus>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock me-1"></i> 密码
+                    </label>
+                    <input type="password" class="form-control" id="password" name="password" 
+                           placeholder="输入密码" required>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i> 登录系统
+                    </button>
+                </div>
+            </form>
+            
+            <div class="demo-accounts">
+                <h6><i class="fas fa-info-circle me-1"></i> 演示账号</h6>
+                <ul>
+                    <li><strong>管理员:</strong> admin / admin123</li>
+                    <li><strong>客服代表:</strong> agent1 / agent123</li>
+                </ul>
+                <p class="mb-0 small text-muted">
+                    <i class="fas fa-shield-alt me-1"></i> 此为演示系统，请勿使用真实密码
+                </p>
+            </div>
+        </div>
+        
+        <div class="login-footer">
+            <p class="mb-2">
+                <i class="fas fa-copyright me-1"></i> {{ now.year }} HMA Digital Sdn Bhd
+            </p>
+            <p class="mb-0 small">
+                版本 1.0.0 | 最后更新: {{ now.strftime('%Y-%m-%d') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 自动聚焦到用户名输入框
+        document.getElementById('username').focus();
+        
+        // 回车键提交表单
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                const form = document.querySelector('form');
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

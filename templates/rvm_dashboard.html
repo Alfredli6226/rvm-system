@@ -1,0 +1,154 @@
+        // Edit location
+        function editLocation(rvmId) {
+            alert(`Editing RVM: ${rvmId}\n\nThis would open an edit form with all location details.`);
+            // In a real implementation, this would open an edit modal
+        }
+        
+        // Add new location
+        function addNewLocation() {
+            alert('Add New RVM Location\n\nThis would open a form to add a new RVM location with:\n- Location details\n- Capacity information\n- Contact information\n- Installation date');
+        }
+        
+        // Schedule cleaning
+        function scheduleCleaning() {
+            alert('Schedule Cleaning\n\nThis would open a scheduling interface to:\n- Select RVM locations\n- Choose cleaning date/time\n- Assign cleaning team\n- Set reminders');
+        }
+        
+        // Create maintenance
+        function createMaintenance() {
+            alert('Create Maintenance Request\n\nThis would open a form to:\n- Select RVM location\n- Describe maintenance needed\n- Assign technician\n- Set priority level');
+        }
+        
+        // Generate report
+        function generateReport() {
+            alert('Generate Report\n\nThis would open a report generator with options for:\n- Date range selection\n- Report type (collections, maintenance, performance)\n- Format (PDF, Excel, CSV)\n- Email delivery');
+        }
+        
+        // View customer service
+        function viewCustomerService() {
+            window.open('http://localhost:5050', '_blank');
+        }
+        
+        // Refresh data
+        function refreshData() {
+            loadAllData();
+            showNotification('Data refreshed successfully', 'success');
+        }
+        
+        // Export data
+        function exportData() {
+            alert('Export Data\n\nThis would export:\n- Current dashboard data\n- Selected time period\n- All RVM locations\n- Collection and maintenance records\n\nFormat: Excel/CSV');
+        }
+        
+        // Load analytics data
+        async function loadAnalyticsData() {
+            // This would load additional analytics data
+            console.log('Loading analytics data...');
+        }
+        
+        // Utility functions
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        function getDaysUntil(dateString) {
+            if (!dateString) return '';
+            const today = new Date();
+            const targetDate = new Date(dateString);
+            const diffTime = targetDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Tomorrow';
+            if (diffDays < 0) return `${Math.abs(diffDays)} days ago`;
+            return `in ${diffDays} days`;
+        }
+        
+        function updateLastUpdated() {
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        function showError(message) {
+            showNotification(message, 'error');
+        }
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            
+            .badge {
+                display: inline-block;
+                padding: 3px 8px;
+                background-color: #e74c3c;
+                color: white;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 600;
+                min-width: 20px;
+                text-align: center;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize chart on load
+        initCollectionChart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block title %}仪表板 - RVM客户服务系统{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item active" aria-current="page">仪表板</li>
+{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-tachometer-alt me-2"></i>仪表板
+{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group">
+    <button type="button" class="btn btn-outline-success btn-sm" onclick="refreshDashboard()">
+        <i class="fas fa-sync-alt me-1"></i> 刷新
+    </button>
+    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#quickReplyModal">
+        <i class="fas fa-reply me-1"></i> 快速回复
+    </button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- 统计卡片 -->
+    <div class="col-md-3 mb-4">
+        <div class="card border-primary h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">今日交互</h6>
+                        <h2 class="card-title">{{ stats.total_interactions }}</h2>
+                    </div>
+                    <div class="display-4 text-primary">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                </div>
+                <p class="card-text small text-muted">
+                    <i class="fas fa-clock me-1"></i> 今日客户交互次数
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card border-warning h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">新问题</h6>
+                        <h2 class="card-title">{{ stats.new_issues }}</h2>
+                    </div>
+                    <div class="display-4 text-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                </div>
+                <p class="card-text small text-muted">
+                    <i class="fas fa-clock me-1"></i> 今日新报告问题
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card border-danger h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">待处理</h6>
+                        <h2 class="card-title">{{ stats.pending_issues }}</h2>
+                    </div>
+                    <div class="display-4 text-danger">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                </div>
+                <p class="card-text small text-muted">
+                    <i class="fas fa-clock me-1"></i> 所有待处理问题
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card border-success h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">今日解决</h6>
+                        <h2 class="card-title">{{ stats.resolved_today }}</h2>
+                    </div>
+                    <div class="display-4 text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <p class="card-text small text-muted">
+                    <i class="fas fa-clock me-1"></i> 今日已解决问题
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- 最近交互 -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history me-2"></i>最近交互
+                    <a href="{{ url_for('interactions') }}" class="float-end btn btn-sm btn-outline-primary">
+                        查看全部 <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>客户</th>
+                                <th>消息</th>
+                                <th>类别</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for interaction in recent_interactions %}
+                            <tr>
+                                <td class="text-nowrap">
+                                    <small>{{ interaction.timestamp.strftime('%H:%M') }}</small>
+                                </td>
+                                <td>
+                                    {% if interaction.customer %}
+                                        <small>{{ interaction.customer.phone_number|truncate(10) }}</small>
+                                    {% else %}
+                                        <small class="text-muted">未知</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <small>{{ interaction.message|truncate(20) }}</small>
+                                </td>
+                                <td>
+                                    {% if interaction.category %}
+                                        <span class="badge bg-info">{{ interaction.category }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">未知</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-3">
+                                    暂无交互记录
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 待处理问题 -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>待处理问题
+                    <a href="{{ url_for('issues') }}" class="float-end btn btn-sm btn-outline-danger">
+                        处理问题 <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>状态</th>
+                                <th>时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for issue in pending_issues %}
+                            <tr>
+                                <td><small>#{{ issue.id }}</small></td>
+                                <td>
+                                    <small>{{ issue.title|truncate(25) }}</small>
+                                </td>
+                                <td>
+                                    {% if issue.status.value == 'new' %}
+                                        <span class="badge bg-warning">新</span>
+                                    {% elif issue.status.value == 'in_progress' %}
+                                        <span class="badge bg-primary">处理中</span>
+                                    {% elif issue.status.value == 'pending' %}
+                                        <span class="badge bg-secondary">等待</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-nowrap">
+                                    <small>{{ issue.created_at.strftime('%m-%d %H:%M') }}</small>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-3">
+                                    暂无待处理问题
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 图表区域 -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line me-2"></i>服务趋势
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="trendChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 快速回复模态框 -->
+<div class="modal fade" id="quickReplyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-reply me-2"></i>快速回复工具
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">客户手机号</label>
+                    <input type="text" class="form-control" id="customerPhone" placeholder="+60 11-XXXX XXXX">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">客户消息</label>
+                    <textarea class="form-control" id="customerMessage" rows="3" placeholder="输入客户消息..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" onclick="generateReply()">
+                        <i class="fas fa-robot me-1"></i> 生成回复
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">生成的回复</label>
+                    <textarea class="form-control" id="generatedReply" rows="4" readonly></textarea>
+                </div>
+                <div class="alert alert-info small">
+                    <i class="fas fa-info-circle me-1"></i>
+                    系统会根据消息内容自动识别问题类别并生成合适的回复。
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success" onclick="copyReply()">
+                    <i class="fas fa-copy me-1"></i> 复制回复
+                </button>
+                <button type="button" class="btn btn-primary" onclick="logInteraction()">
+                    <i class="fas fa-save me-1"></i> 保存记录
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// 刷新仪表板
+function refreshDashboard() {
+    location.reload();
+}
+
+// 生成回复
+function generateReply() {
+    const message = $('#customerMessage').val().trim();
+    const phone = $('#customerPhone').val().trim();
+    
+    if (!message) {
+        alert('请输入客户消息');
+        return;
+    }
+    
+    $.ajax({
+        url: '/api/auto-reply',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            message: message,
+            customer_phone: phone || undefined
+        }),
+        success: function(response) {
+            if (response.success) {
+                $('#generatedReply').val(response.reply);
+                
+                // 显示分析结果
+                let info = `类别: ${response.category}\n`;
+                info += `置信度: ${(response.confidence * 100).toFixed(1)}%\n`;
+                info += `位置: ${response.extracted_location || '未识别'}\n`;
+                info += `紧急: ${response.is_emergency ? '是' : '否'}`;
+                
+                alert('回复生成成功！\n\n' + info);
+            } else {
+                alert('生成回复失败: ' + (response.error || '未知错误'));
+            }
+        },
+        error: function() {
+            alert('请求失败，请检查网络连接');
+        }
+    });
+}
+
+// 复制回复
+function copyReply() {
+    const replyText = $('#generatedReply').val();
+    if (!replyText) {
+        alert('请先生成回复');
+        return;
+    }
+    
+    navigator.clipboard.writeText(replyText).then(function() {
+        alert('回复已复制到剪贴板');
+    }).catch(function() {
+        // 备用方法
+        $('#generatedReply').select();
+        document.execCommand('copy');
+        alert('回复已复制到剪贴板');
+    });
+}
+
+// 记录交互
+function logInteraction() {
+    const phone = $('#customerPhone').val().trim();
+    const message = $('#customerMessage').val().trim();
+    const reply = $('#generatedReply').val().trim();
+    
+    if (!phone || !message || !reply) {
+        alert('请填写所有必要信息');
+        return;
+    }
+    
+    $.ajax({
+        url: '/api/log-interaction',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            customer_phone: phone,
+            message: message,
+            reply: reply
+        }),
+        success: function(response) {
+            if (response.success) {
+                alert('交互记录保存成功！');
+                $('#quickReplyModal').modal('hide');
+                // 清空表单
+                $('#customerPhone').val('');
+                $('#customerMessage').val('');
+                $('#generatedReply').val('');
+            } else {
+                alert('保存失败: ' + (response.error || '未知错误'));
+            }
+        },
+        error: function() {
+            alert('请求失败，请检查网络连接');
+        }
+    });
+}
+
+// 加载趋势图表
+$(document).ready(function() {
+    loadTrendChart();
+    
+    // 每5分钟自动刷新数据
+    setInterval(loadTrendChart, 5 * 60 * 1000);
+});
+
+function loadTrendChart() {
+    $.ajax({
+        url: '/api/dashboard-stats',
+        method: 'GET',
+        success: function(response) {
+            if (response.success) {
+                renderTrendChart(response.trend_data);
+            }
+        }
+    });
+}
+
+function renderTrendChart(trendData) {
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    
+    // 如果已有图表实例，先销毁
+    if (window.trendChart) {
+        window.trendChart.destroy();
+    }
+    
+    const dates = trendData.map(item => item.date);
+    const interactions = trendData.map(item => item.interactions);
+    const issues = trendData.map(item => item.issues);
+    
+    window.trendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: '交互次数',
+                    data: interactions,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: '问题数量',
+                    data: issues,
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '日期'
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '数量'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+</script>
+{% endblock %}

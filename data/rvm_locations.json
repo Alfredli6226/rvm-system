@@ -1,0 +1,128 @@
+{
+  "rvm_locations": [
+    {
+      "id": "RVM-BANTING-001",
+      "name": "Dataran Banting",
+      "address": "Dataran Banting, 42700 Banting, Selangor",
+      "status": "active",
+      "capacity": "500kg",
+      "installed_date": "2026-03-11",
+      "last_cleaning": "2026-04-05",
+      "next_cleaning": "2026-04-06",
+      "contact_person": "John Tan",
+      "contact_phone": "+60123456789",
+      "coordinates": {
+        "lat": 2.8133,
+        "lng": 101.4974
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil"],
+      "rewards_rate": "1 point per item"
+    },
+    {
+      "id": "RVM-PUCHONG-002",
+      "name": "Puchong",
+      "address": "Puchong, 47100 Puchong, Selangor",
+      "status": "active",
+      "capacity": "750kg",
+      "installed_date": "2026-02-15",
+      "last_cleaning": "2026-04-04",
+      "next_cleaning": "2026-04-07",
+      "contact_person": "Sarah Lee",
+      "contact_phone": "+60129876543",
+      "coordinates": {
+        "lat": 3.0449,
+        "lng": 101.6206
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil", "paper"],
+      "rewards_rate": "1.2 points per item"
+    },
+    {
+      "id": "RVM-SUBANG-003",
+      "name": "Subang Jaya",
+      "address": "Subang Jaya, 47500 Subang Jaya, Selangor",
+      "status": "active",
+      "capacity": "1000kg",
+      "installed_date": "2026-01-20",
+      "last_cleaning": "2026-04-03",
+      "next_cleaning": "2026-04-08",
+      "contact_person": "David Wong",
+      "contact_phone": "+60135557777",
+      "coordinates": {
+        "lat": 3.0497,
+        "lng": 101.5854
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil", "paper", "glass"],
+      "rewards_rate": "1.5 points per item"
+    },
+    {
+      "id": "RVM-SHAHALAM-004",
+      "name": "Shah Alam",
+      "address": "Shah Alam, 40000 Shah Alam, Selangor",
+      "status": "active",
+      "capacity": "800kg",
+      "installed_date": "2026-02-28",
+      "last_cleaning": "2026-04-02",
+      "next_cleaning": "2026-04-09",
+      "contact_person": "Michelle Chan",
+      "contact_phone": "+60136668888",
+      "coordinates": {
+        "lat": 3.0733,
+        "lng": 101.5185
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil"],
+      "rewards_rate": "1 point per item"
+    },
+    {
+      "id": "RVM-KLANG-005",
+      "name": "Klang",
+      "address": "Klang, 41000 Klang, Selangor",
+      "status": "maintenance",
+      "capacity": "600kg",
+      "installed_date": "2026-03-05",
+      "last_cleaning": "2026-04-01",
+      "next_cleaning": "2026-04-10",
+      "contact_person": "Robert Lim",
+      "contact_phone": "+60137779999",
+      "coordinates": {
+        "lat": 3.0449,
+        "lng": 101.4455
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil"],
+      "rewards_rate": "1 point per item"
+    },
+    {
+      "id": "RVM-PETALING-006",
+      "name": "Petaling Jaya",
+      "address": "Petaling Jaya, 46000 Petaling Jaya, Selangor",
+      "status": "active",
+      "capacity": "900kg",
+      "installed_date": "2026-03-18",
+      "last_cleaning": "2026-03-31",
+      "next_cleaning": "2026-04-11",
+      "contact_person": "Lisa Ng",
+      "contact_phone": "+60138881111",
+      "coordinates": {
+        "lat": 3.1073,
+        "lng": 101.6067
+      },
+      "operating_hours": "8:00-22:00",
+      "accepted_items": ["plastic_bottles", "aluminum_cans", "used_oil", "paper", "glass", "electronics"],
+      "rewards_rate": "2 points per item"
+    }
+  ],
+  "statistics": {
+    "total_rvms": 6,
+    "active_rvms": 5,
+    "maintenance_rvms": 1,
+    "total_capacity": "4550kg",
+    "average_daily_collection": "1250kg",
+    "total_rewards_points": 125000,
+    "total_customers": 850,
+    "monthly_collection": "37500kg"
+  }
+}

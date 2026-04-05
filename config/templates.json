@@ -1,0 +1,300 @@
+{
+  "templates": [
+    {
+      "id": "rvm_full_standard",
+      "category": "rvm_full",
+      "name": "RVM已满标准回复",
+      "description": "标准RVM已满通知回复",
+      "priority": "high",
+      "content": "感谢您通知我们{location}RVM已满的情况！👍\n\n我们已经收到您的通知，并立即联系了{responsible_party}安排清理。\n\n预计清理时间：{estimated_time}\n\n我们会持续跟进清理进度，并在完成后通知您。\n\n感谢您的耐心与支持！😊\n\nMyGreenPlus客户服务\n📞 {contact_number}",
+      "variables": {
+        "location": {
+          "type": "string",
+          "required": true,
+          "default": "该",
+          "description": "RVM位置"
+        },
+        "responsible_party": {
+          "type": "string",
+          "required": true,
+          "default": "KDEBS",
+          "description": "负责清理的机构"
+        },
+        "estimated_time": {
+          "type": "string",
+          "required": true,
+          "default": "2天内完成",
+          "description": "预计清理时间"
+        },
+        "contact_number": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1072 8228",
+          "description": "客服联系方式"
+        }
+      },
+      "variations": [
+        {
+          "name": "简洁版",
+          "content": "收到！已通知{responsible_party}安排清理{location}RVM。\n\n预计{estimated_time}完成，我们会跟进进度。\n\n谢谢通知！🙏"
+        },
+        {
+          "name": "详细版",
+          "content": "尊敬的客户，您好！\n\n感谢您及时向我们报告{location}RVM已满的情况。我们非常重视您的反馈。\n\n✅ 已立即联系{responsible_party}安排清理\n✅ 预计清理完成时间：{estimated_time}\n✅ 清理团队会尽快前往处理\n\n我们会持续监控清理进度，并在以下时间点向您更新：\n1. 清理团队出发时\n2. 清理进行中\n3. 清理完成后\n\n如有任何疑问，请随时联系我们：\n📞 {contact_number}\n📧 admin@hmadigital.asia\n\n再次感谢您对环保事业的支持！🌍\n\nMyGreenPlus客户服务团队"
+        }
+      ]
+    },
+    {
+      "id": "progress_inquiry_standard",
+      "category": "progress_inquiry",
+      "name": "进度查询标准回复",
+      "description": "查询清理进度回复",
+      "priority": "medium",
+      "content": "关于{location}RVM清理进度：\n\n✅ {responsible_party}已确认收到清理请求\n✅ 预计清理时间：{estimated_time}\n✅ 当前状态：{current_status}\n\n我们会持续跟进，完成后立即通知您。\n\n感谢您的耐心等待！⏳",
+      "variables": {
+        "location": {
+          "type": "string",
+          "required": true,
+          "default": "该",
+          "description": "RVM位置"
+        },
+        "responsible_party": {
+          "type": "string",
+          "required": true,
+          "default": "KDEBS",
+          "description": "负责清理的机构"
+        },
+        "estimated_time": {
+          "type": "string",
+          "required": true,
+          "default": "正在安排中",
+          "description": "预计清理时间"
+        },
+        "current_status": {
+          "type": "string",
+          "required": true,
+          "default": "处理中",
+          "description": "当前处理状态"
+        }
+      }
+    },
+    {
+      "id": "technical_issue_standard",
+      "category": "technical_issue",
+      "name": "技术故障标准回复",
+      "description": "RVM技术故障回复",
+      "priority": "high",
+      "content": "感谢您报告{location}RVM技术故障！🔧\n\n我们的技术团队已收到通知，会尽快安排检查维修。\n\n预计处理时间：{estimated_time}\n\n故障期间给您带来的不便，我们深表歉意。\n\n我们会及时更新维修进度。\n\n紧急联系：{emergency_contact}",
+      "variables": {
+        "location": {
+          "type": "string",
+          "required": true,
+          "default": "该",
+          "description": "RVM位置"
+        },
+        "estimated_time": {
+          "type": "string",
+          "required": true,
+          "default": "24小时内",
+          "description": "预计维修时间"
+        },
+        "emergency_contact": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1095 8228",
+          "description": "紧急联系方式"
+        }
+      }
+    },
+    {
+      "id": "general_inquiry_standard",
+      "category": "general_inquiry",
+      "name": "一般咨询标准回复",
+      "description": "一般性咨询回复",
+      "priority": "low",
+      "content": "您好！感谢您的咨询。😊\n\n{answer}\n\n如需更多信息，请访问我们的网站：{website}\n或联系客服：{contact_number}\n\n祝您有美好的一天！✨",
+      "variables": {
+        "answer": {
+          "type": "string",
+          "required": true,
+          "default": "请告诉我们您的具体问题，我们会尽力为您解答。",
+          "description": "具体回答内容"
+        },
+        "website": {
+          "type": "string",
+          "required": true,
+          "default": "mygreenplus.com",
+          "description": "公司网站"
+        },
+        "contact_number": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1072 8228",
+          "description": "客服联系方式"
+        }
+      }
+    },
+    {
+      "id": "complaint_standard",
+      "category": "complaint",
+      "name": "投诉处理标准回复",
+      "description": "客户投诉回复",
+      "priority": "high",
+      "content": "尊敬的客户，您好！\n\n对于您遇到的不便，我们深表歉意。😔\n\n我们非常重视您的反馈，已记录您的投诉并升级处理。\n\n处理流程：\n1. 主管会亲自跟进\n2. 调查问题原因\n3. 制定改进方案\n4. 向您反馈结果\n\n预计回复时间：{response_time}\n\n再次为给您带来的困扰道歉，我们会认真改进。\n\n紧急联系：{emergency_contact}",
+      "variables": {
+        "response_time": {
+          "type": "string",
+          "required": true,
+          "default": "24小时内",
+          "description": "预计回复时间"
+        },
+        "emergency_contact": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1095 8228",
+          "description": "紧急联系方式"
+        }
+      }
+    },
+    {
+      "id": "praise_standard",
+      "category": "praise",
+      "name": "表扬感谢标准回复",
+      "description": "客户表扬回复",
+      "priority": "low",
+      "content": "感谢您的表扬和鼓励！🙏\n\n您的认可是我们前进的最大动力！\n\n我们会继续努力，提供更优质的服务。\n\n祝您生活愉快！😊\n\nMyGreenPlus团队",
+      "variables": {}
+    },
+    {
+      "id": "business_inquiry_standard",
+      "category": "business_inquiry",
+      "name": "商业咨询标准回复",
+      "description": "商业合作咨询回复",
+      "priority": "medium",
+      "content": "感谢您对MyGreenPlus业务的兴趣！🤝\n\n我们已经收到您的商业咨询，相关同事会尽快与您联系。\n\n预计回复时间：{response_time}\n\n您也可以直接联系我们的商务部门：\n📧 business@hmadigital.asia\n📞 {business_contact}\n\n期待与您的合作！✨",
+      "variables": {
+        "response_time": {
+          "type": "string",
+          "required": true,
+          "default": "2个工作日内",
+          "description": "预计回复时间"
+        },
+        "business_contact": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1072 8228",
+          "description": "商务联系方式"
+        }
+      }
+    },
+    {
+      "id": "greeting_standard",
+      "category": "greeting",
+      "name": "问候语标准回复",
+      "description": "客户问候回复",
+      "priority": "low",
+      "content": "您好！😊\n\n欢迎联系MyGreenPlus客户服务。\n\n请问有什么可以帮您？",
+      "variables": {}
+    },
+    {
+      "id": "farewell_standard",
+      "category": "farewell",
+      "name": "告别语标准回复",
+      "description": "客户告别回复",
+      "priority": "low",
+      "content": "不客气！😊\n\n如有其他问题，请随时联系我们。\n\n祝您有美好的一天！✨",
+      "variables": {}
+    },
+    {
+      "id": "unknown_standard",
+      "category": "unknown",
+      "name": "未知问题标准回复",
+      "description": "无法识别问题回复",
+      "priority": "medium",
+      "content": "您好！😊\n\n抱歉，我没有完全理解您的问题。\n\n请您详细描述一下您遇到的问题，或者直接联系我们的客服：\n📞 {contact_number}\n\n我们会尽力为您提供帮助！",
+      "variables": {
+        "contact_number": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1072 8228",
+          "description": "客服联系方式"
+        }
+      }
+    }
+  ],
+  "emergency_templates": [
+    {
+      "id": "emergency_immediate",
+      "name": "紧急情况立即回复",
+      "content": "紧急通知！🚨\n\n我们已收到您的紧急报告，正在紧急处理中。\n\n应急团队已启动，会尽快前往现场。\n\n请保持电话畅通，我们会随时更新进展。\n\n紧急热线：{emergency_contact}",
+      "variables": {
+        "emergency_contact": {
+          "type": "string",
+          "required": true,
+          "default": "+60 11-1095 8228",
+          "description": "紧急联系方式"
+        }
+      }
+    }
+  ],
+  "notification_templates": {
+    "cleaning_scheduled": {
+      "subject": "RVM清理已安排",
+      "content": "✅ 清理安排确认\n\n位置：{location}\n安排时间：{scheduled_time}\n负责团队：{team}\n预计完成：{estimated_completion}\n\n我们会持续跟进进度。"
+    },
+    "cleaning_in_progress": {
+      "subject": "RVM清理进行中",
+      "content": "🔄 清理进行中\n\n位置：{location}\n开始时间：{start_time}\n当前状态：清理团队已到达现场\n预计完成：{estimated_completion}\n\n我们会及时更新完成情况。"
+    },
+    "cleaning_completed": {
+      "subject": "RVM清理已完成",
+      "content": "🎉 清理完成！\n\n位置：{location}\n完成时间：{completion_time}\n状态：RVM已清空，恢复正常使用\n\n感谢您的耐心等待！"
+    },
+    "escalation_notification": {
+      "subject": "问题升级通知",
+      "content": "⚠️ 问题升级\n\n客户：{customer}\n问题：{issue}\n位置：{location}\n升级级别：{escalation_level}\n处理人：{assigned_to}\n要求完成时间：{due_time}\n\n请立即处理。"
+    }
+  },
+  "report_templates": {
+    "daily_summary": {
+      "subject": "每日客户服务报告 - {date}",
+      "content": "# 每日客户服务报告\n\n## 📊 统计概览\n- 总交互次数：{total_interactions}\n- 新问题报告：{new_issues}\n- 已解决问题：{resolved_issues}\n- 平均响应时间：{avg_response_time}分钟\n- 客户满意度：{satisfaction_rate}%\n\n## 🎯 问题分类\n{issue_breakdown}\n\n## 🚨 待处理问题\n{pending_issues}\n\n## 📈 趋势分析\n{trend_analysis}\n\n报告生成时间：{report_time}"
+    }
+  },
+  "variable_sources": {
+    "location": {
+      "source": "message_analysis",
+      "extraction_patterns": [
+        "dataran banting",
+        "Dataran Banting",
+        "banting",
+        "subang jaya",
+        "Subang Jaya",
+        "puchong",
+        "Puchong"
+      ],
+      "fallback": "该"
+    },
+    "estimated_time": {
+      "source": "sla_config",
+      "mapping": {
+        "rvm_full": "2天内",
+        "technical_issue": "24小时内",
+        "general_inquiry": "4小时内"
+      },
+      "fallback": "尽快"
+    },
+    "contact_number": {
+      "source": "settings",
+      "path": "WHATSAPP_CONFIG.business_number",
+      "fallback": "+60 11-1072 8228"
+    }
+  },
+  "template_selection_rules": {
+    "confidence_threshold": 0.7,
+    "fallback_template": "unknown_standard",
+    "emergency_override": true,
+    "context_aware": true,
+    "previous_interaction_weight": 0.3
+  }
+}

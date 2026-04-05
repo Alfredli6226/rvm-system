@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVM客户服务系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .status {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .api-list {
+            margin-top: 30px;
+        }
+        .api-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 3px;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #3498db;
+            color: white;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .method.get { background: #61affe; }
+        .method.post { background: #49cc90; }
+        .method.put { background: #fca130; }
+        .method.delete { background: #f93e3e; }
+        .endpoint {
+            font-family: monospace;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .description {
+            margin-top: 5px;
+            color: #666;
+        }
+        .test-area {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .test-form {
+            display: grid;
+            gap: 15px;
+            max-width: 500px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f6f3;
+            border-radius: 5px;
+            display: none;
+        }
+        .response.show {
+            display: block;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 RVM客户服务系统</h1>
+        
+        <div class="status">
+            <h3>系统状态</h3>
+            <p>✅ 服务运行正常</p>
+            <p>📊 自动回复引擎已就绪</p>
+            <p>🗄️ 数据库连接正常</p>
+            <p>🌐 API服务运行中</p>
+        </div>
+
+        <h2>📊 实时统计</h2>
+        <div class="stats-grid" id="statsGrid">
+            <!-- 统计信息将通过JavaScript动态加载 -->
+        </div>
+
+        <h2>🧪 测试自动回复</h2>
+        <div class="test-area">
+            <form class="test-form" id="testForm">
+                <div class="form-group">
+                    <label for="phone">电话号码:</label>
+                    <input type="text" id="phone" value="+60123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">位置 (可选):</label>
+                    <input type="text" id="location" value="Dataran Banting">
+                </div>
+                <div class="form-group">
+                    <label for="rvmId">RVM ID (可选):</label>
+                    <input type="text" id="rvmId" value="RVM-BANTING-001">
+                </div>
+                <div class="form-group">
+                    <label for="message">消息内容:</label>
+                    <textarea id="message" required>RVM已满，请尽快清理</textarea>
+                </div>
+                <button type="submit">发送测试消息</button>
+            </form>
+            
+            <div class="response" id="responseArea">
+                <h4>系统回复:</h4>
+                <p id="responseText"></p>
+                <p><strong>问题类型:</strong> <span id="issueType"></span></p>
+                <p><strong>匹配关键词:</strong> <span id="matchedKeywords"></span></p>
+            </div>
+        </div>
+
+        <h2>🔧 API 接口</h2>
+        <div class="api-list">
+            <div class="api-item">
+                <span class="method post">POST</span>
+                <span class="endpoint">/api/auto-reply</span>
+                <div class="description">自动回复消息处理</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/customers</span>
+                <div class="description">获取客户列表</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/interactions</span>
+                <div class="description">获取交互记录</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/issues</span>
+                <div class="description">获取问题跟踪</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/stats</span>
+                <div class="description">获取系统统计</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/keywords</span>
+                <div class="description">获取关键词配置</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/templates</span>
+                <div class="description">获取回复模板</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/health</span>
+                <div class="description">健康检查</div>
+            </div>
+        </div>
+
+        <h2>📖 使用说明</h2>
+        <div style="margin-top: 20px;">
+            <h3>支持的场景:</h3>
+            <ul>
+                <li><strong>RVM已满</strong>: "满", "满了", "需要清理"</li>
+                <li><strong>机器故障</strong>: "故障", "坏了", "不能用"</li>
+                <li><strong>咨询</strong>: "咨询", "问", "位置", "时间"</li>
+                <li><strong>投诉</strong>: "投诉", "不满意", "问题"</li>
+                <li><strong>表扬</strong>: "表扬", "谢谢", "很好"</li>
+            </ul>
+            
+            <h3>集成方式:</h3>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+// JavaScript 示例
+fetch('/api/auto-reply', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        phone_number: '+60123456789',
+        message: 'RVM已满，请清理',
+        location: 'Dataran Banting',
+        rvm_id: 'RVM-BANTING-001'
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data));</pre>
+        </div>
+    </div>
+
+    <script>
+        // 加载统计信息
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    const grid = document.getElementById('statsGrid');
+                    
+                    grid.innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.total_customers}</div>
+                            <div class="stat-label">总客户数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.total_interactions}</div>
+                            <div class="stat-label">总交互数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.today_interactions}</div>
+                            <div class="stat-label">今日交互</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.open_issues}</div>
+                            <div class="stat-label">待处理问题</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.resolved_issues}</div>
+                            <div class="stat-label">已解决问题</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('加载统计失败:', error);
+            }
+        }
+
+        // 测试表单提交
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const rvmId = document.getElementById('rvmId').value;
+            const message = document.getElementById('message').value;
+            
+            try {
+                const response = await fetch('/api/auto-reply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone_number: phone,
+                        message: message,
+                        location: location || undefined,
+                        rvm_id: rvmId || undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('responseText').textContent = data.response;
+                    document.getElementById('issueType').textContent = data.issue_type;
+                    document.getElementById('matchedKeywords').textContent = data.matched_keywords.join(', ');
+                    document.getElementById('responseArea').classList.add('show');
+                    
+                    // 重新加载统计
+                    loadStats();
+                } else {
+                    alert('请求失败: ' + (data.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+            }
+        });
+
+        // 页面加载时获取统计
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>

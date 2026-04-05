@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVM Customer Service System</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d4eaf7 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+        .api-list {
+            margin-top: 35px;
+        }
+        .api-item {
+            background: #f8f9fa;
+            padding: 18px;
+            margin: 12px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .api-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 10px;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .method.get { background: #61affe; }
+        .method.post { background: #49cc90; }
+        .method.put { background: #fca130; }
+        .method.delete { background: #f93e3e; }
+        .endpoint {
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .description {
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        .test-area {
+            margin-top: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .test-form {
+            display: grid;
+            gap: 18px;
+            max-width: 500px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .response {
+            margin-top: 25px;
+            padding: 20px;
+            background: #e8f6f3;
+            border-radius: 8px;
+            border-left: 4px solid #1abc9c;
+            display: none;
+        }
+        .response.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #e8f4fc;
+            color: #3498db;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .section-title {
+            color: #2c3e50;
+            margin-top: 35px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .language-switch {
+            float: right;
+            margin-top: 10px;
+        }
+        .language-switch a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .language-switch a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switch">
+            <a href="/">中文</a> | <strong>English</strong>
+        </div>
+        
+        <h1>🤖 RVM Customer Service System</h1>
+        
+        <div class="status">
+            <h3 style="margin-top: 0;">System Status</h3>
+            <p>✅ Service is running normally</p>
+            <p>📊 Auto-reply engine is ready</p>
+            <p>🗄️ Database connection is healthy</p>
+            <p>🌐 API service is operational</p>
+        </div>
+
+        <h2 class="section-title">📊 Real-time Statistics</h2>
+        <div class="stats-grid" id="statsGrid">
+            <!-- Statistics will be loaded dynamically via JavaScript -->
+        </div>
+
+        <h2 class="section-title">🧪 Test Auto-Reply</h2>
+        <div class="test-area">
+            <form class="test-form" id="testForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" value="+60123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location (Optional):</label>
+                    <input type="text" id="location" value="Dataran Banting">
+                </div>
+                <div class="form-group">
+                    <label for="rvmId">RVM ID (Optional):</label>
+                    <input type="text" id="rvmId" value="RVM-BANTING-001">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message Content:</label>
+                    <textarea id="message" required>RVM is full, please clean asap</textarea>
+                </div>
+                <button type="submit">Send Test Message</button>
+            </form>
+            
+            <div class="response" id="responseArea">
+                <h4 style="margin-top: 0;">System Response:</h4>
+                <p id="responseText" style="background: white; padding: 15px; border-radius: 6px; border-left: 3px solid #3498db;"></p>
+                <p><strong>Issue Type:</strong> <span id="issueType" class="badge"></span></p>
+                <p><strong>Matched Keywords:</strong> <span id="matchedKeywords"></span></p>
+            </div>
+        </div>
+
+        <h2 class="section-title">🔧 API Endpoints</h2>
+        <div class="api-list">
+            <div class="api-item">
+                <span class="method post">POST</span>
+                <span class="endpoint">/api/auto-reply</span>
+                <div class="description">Process messages and generate auto-replies</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/customers</span>
+                <div class="description">Get customer list with interaction history</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/interactions</span>
+                <div class="description">Get all interaction records with filters</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/issues</span>
+                <div class="description">Get issue tracking and status</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/stats</span>
+                <div class="description">Get system statistics and analytics</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/keywords</span>
+                <div class="description">Get keyword configurations</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/templates</span>
+                <div class="description">Get response templates</div>
+            </div>
+            <div class="api-item">
+                <span class="method get">GET</span>
+                <span class="endpoint">/api/health</span>
+                <div class="description">Health check and system status</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">📖 Usage Guide</h2>
+        <div style="margin-top: 20px;">
+            <h3>Supported Scenarios:</h3>
+            <ul>
+                <li><strong>RVM Full</strong>: "full", "filled", "need cleaning"</li>
+                <li><strong>Machine Fault</strong>: "fault", "broken", "not working"</li>
+                <li><strong>Inquiry</strong>: "inquiry", "question", "location", "hours"</li>
+                <li><strong>Complaint</strong>: "complaint", "dissatisfied", "problem"</li>
+                <li><strong>Praise</strong>: "praise", "thank", "excellent"</li>
+            </ul>
+            
+            <h3>Integration Example:</h3>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 6px; border: 1px solid #e9ecef; overflow-x: auto;">
+// JavaScript Integration
+fetch('/api/auto-reply', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        phone_number: '+60123456789',
+        message: 'RVM is full',
+        location: 'Dataran Banting',
+        rvm_id: 'RVM-BANTING-001'
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Response:', data.response);
+    // Send this response back to customer
+});</pre>
+
+            <h3>Sample Responses:</h3>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                <p><strong>RVM Full:</strong> "Thank you for notifying that the RVM at Dataran Banting is full. Our cleaning team will arrive within 2 hours..."</p>
+                <p><strong>Machine Fault:</strong> "Sorry for the inconvenience. The RVM at Puchong has a malfunction. Our technician will arrive within 1 hour..."</p>
+                <p><strong>Inquiry:</strong> "Thank you for your inquiry. Our RVM locations: 1. Dataran Banting, 2. Puchong, 3. Subang Jaya..."</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    const grid = document.getElementById('statsGrid');
+                    
+                    grid.innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.total_customers}</div>
+                            <div class="stat-label">Total Customers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.total_interactions}</div>
+                            <div class="stat-label">Total Interactions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.today_interactions}</div>
+                            <div class="stat-label">Today's Interactions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.open_issues}</div>
+                            <div class="stat-label">Open Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${stats.resolved_issues}</div>
+                            <div class="stat-label">Resolved Issues</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        // Test form submission
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const rvmId = document.getElementById('rvmId').value;
+            const message = document.getElementById('message').value;
+            
+            try {
+                const response = await fetch('/api/auto-reply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone_number: phone,
+                        message: message,
+                        location: location || undefined,
+                        rvm_id: rvmId || undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('responseText').textContent = data.response;
+                    document.getElementById('issueType').textContent = data.issue_type;
+                    
+                    // Format matched keywords as badges
+                    const keywordsElement = document.getElementById('matchedKeywords');
+                    keywordsElement.innerHTML = data.matched_keywords
+                        .map(keyword => `<span class="badge">${keyword}</span>`)
+                        .join('');
+                    
+                    document.getElementById('responseArea').classList.add('show');
+                    
+                    // Reload statistics
+                    loadStats();
+                } else {
+                    alert('Request failed: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Request failed: ' + error.message);
+            }
+        });
+
+        // Load statistics on page load
+        document.addEventListener('DOMContentLoaded', loadStats);
+
+        // Auto-refresh statistics every 30 seconds
+        setInterval(loadStats, 30000);
+    </script>
+</body>
+</html>
