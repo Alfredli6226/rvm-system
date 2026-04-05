@@ -1,4 +1,97 @@
 {
+  "mygreenplus": [
+    {
+      "id": 1,
+      "type": "environmental_education",
+      "text": "🌍 Why Recycling Matters
+
+Every piece of plastic recycled saves energy and reduces landfill waste. Our Smart RVM machines make recycling easy and rewarding!
+
+Benefits of recycling:
+• Reduces pollution
+• Conserves resources
+• Saves energy
+• Creates green jobs
+
+Join the recycling revolution with MyGreenPlus! ♻️
+
+#Recycling #Environment #Sustainability #MyGreenPlus #GreenMalaysia",
+      "image_path": null,
+      "created_at": "2026-04-05T23:20:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 2,
+      "type": "customer_success",
+      "text": "🌟 Customer Success Story
+
+"Mr. Ahmad from Subang Jaya has recycled over 50kg of plastic through our RVM machines! He earned rewards while helping the environment."
+
+"The MyGreenPlus app makes it so easy to track my recycling and redeem rewards. Great initiative for a greener Malaysia!"
+
+Start your recycling journey today! 🚀
+
+#SuccessStory #Recycling #CustomerTestimonial #MyGreenPlus",
+      "image_path": null,
+      "created_at": "2026-04-05T23:21:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 3,
+      "type": "product_features",
+      "text": "🤖 Smart RVM Features
+
+Our AI-powered Reverse Vending Machines make recycling smarter:
+
+🔹 AI Recognition - Automatically identifies plastic types
+🔹 Real-time Tracking - Monitor recycling progress via app
+🔹 Reward System - Earn points for every item recycled
+🔹 Data Analytics - Track environmental impact
+🔹 Easy to Use - Simple interface for all ages
+
+Find a Smart RVM near you and start recycling! 📱
+
+#SmartRVM #AI #Technology #Recycling #MyGreenPlus",
+      "image_path": null,
+      "created_at": "2026-04-05T23:22:00",
+      "used": false,
+      "platforms_used": []
+    }
+  ],
+  "shiftbyalf": [
+    {
+      "id": 1,
+      "type": "brand_intro",
+      "text": "✨ Welcome to ShiftByAlf!
+
+[Business definition pending - Please provide details about ShiftByAlf]
+
+We're excited to share our journey with you! Stay tuned for updates about our products/services.
+
+#ShiftByAlf #NewBrand #ComingSoon #Malaysia",
+      "image_path": null,
+      "created_at": "2026-04-05T23:23:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 2,
+      "type": "coming_soon",
+      "text": "🚀 Something Exciting is Coming!
+
+ShiftByAlf is preparing something special for you. We believe in [pending business values].
+
+Follow us for the big reveal! 👀
+
+#ComingSoon #ShiftByAlf #ExcitingNews #StayTuned",
+      "image_path": null,
+      "created_at": "2026-04-05T23:24:00",
+      "used": false,
+      "platforms_used": []
+    }
+  ],
   "powernow_asia": [
     {
       "id": 1,
