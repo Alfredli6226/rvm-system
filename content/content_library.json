@@ -1,60 +1,150 @@
 {
-  "powernow": [
+  "powernow_asia": [
     {
       "id": 1,
-      "type": "energy_saving_tips",
-      "text": "💡 Energy Saving Tip of the Day!\n\nDid you know? Switching to LED bulbs can save up to 80% on lighting costs!\n\nTip: Unplug devices when not in use to reduce phantom energy consumption.\n\nSave energy, save money! 💰\n\n#EnergySaving #PowerNowAsia #SustainableLiving",
+      "type": "powerbank_rental",
+      "text": "🔋 Power On-The-Go!\n\nNever run out of battery again! Rent PowerNow Asia power banks at convenient locations across KL.\n\nHow it works:\n1. Find a station\n2. Scan QR code\n3. Rent power bank\n4. Use anywhere\n5. Return to any station\n\nEasy rent, easy return! Stay charged everywhere you go! 📱\n\n#PowerBank #Rental #PowerNowAsia #StayCharged #KL",
       "image_path": null,
-      "created_at": "2026-04-05T23:00:00",
-      "used": false,
-      "platforms_used": []
+      "created_at": "2026-04-05T23:10:00",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
     },
     {
       "id": 2,
-      "type": "solar_success_stories",
-      "text": "☀️ Solar Success Story!\n\nMr. Tan from Subang Jaya reduced his electricity bill by 70% with our solar installation!\n\n\"The installation was smooth and the savings are incredible!\" - Mr. Tan\n\nContact us for your own solar success story!\n\n#SolarPower #RenewableEnergy #PowerNowAsia",
+      "type": "charging_stations",
+      "text": "📍 Find Your Nearest Charging Station!\n\nPowerNow Asia stations are located at:\n• Shopping malls\n• Coffee shops\n• Office buildings\n• Public transport hubs\n• Universities\n\nUse our app to find the nearest station and check availability in real-time! 🗺️\n\nNever be caught with a dead phone again!\n\n#ChargingStation #PowerBank #PowerNowAsia #LocationFinder",
       "image_path": null,
-      "created_at": "2026-04-05T23:01:00",
+      "created_at": "2026-04-05T23:11:00",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "rental_benefits",
+      "text": "💰 Why Rent Power Banks?\n\nBenefits of PowerNow Asia rental service:\n• No need to carry heavy power banks\n• Available 24/7\n• Affordable hourly rates\n• Easy return at any station\n• Environmentally friendly (reusable)\n\nPerfect for:\n• Business travelers\n• Students\n• Shoppers\n• Commuters\n\nTry it today! 🚀\n\n#PowerBankRental #Convenience #Affordable #PowerNowAsia",
+      "image_path": null,
+      "created_at": "2026-04-05T23:12:00",
       "used": false,
       "platforms_used": []
     },
     {
-      "id": 3,
-      "type": "customer_testimonials",
-      "text": "🌟 Customer Testimonial\n\n\"PowerNow Asia transformed our energy consumption! The team was professional and the results exceeded our expectations. Highly recommended!\" - Sarah L., Restaurant Owner\n\nThank you for trusting us with your energy needs!\n\n#HappyCustomer #EnergySolutions #Testimonial",
+      "id": 4,
+      "type": "how_to_use",
+      "text": "📱 How to Use PowerNow Asia Power Banks\n\nStep-by-step guide:\n1. Download our app\n2. Find nearest station\n3. Scan QR code\n4. Unlock power bank\n5. Connect to your device\n6. Return to any station when done\n\nRates: RM3 per hour\nMax rental: 24 hours\nLate fees apply after 24 hours\n\nQuestions? Contact our customer service! 📞\n\n#HowTo #PowerBank #Tutorial #PowerNowAsia",
       "image_path": null,
-      "created_at": "2026-04-05T23:02:00",
+      "created_at": "2026-04-05T23:13:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 5,
+      "type": "customer_testimonials",
+      "text": "🌟 What Our Customers Say\n\n\"I use PowerNow Asia power banks every day! So convenient when I'm out shopping or at meetings. The stations are everywhere!\" - Sarah L.\n\n\"As a student, this saves me from carrying heavy power banks. Affordable and easy to use!\" - Ahmad R.\n\n\"Best service for travelers! Never worry about phone battery when exploring KL.\" - Jessica T.\n\nJoin thousands of satisfied customers! 😊\n\n#Testimonial #HappyCustomer #PowerNowAsia #Reviews",
+      "image_path": null,
+      "created_at": "2026-04-05T23:14:00",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "powerbank_rental",
+      "text": "🔋 Need a power boost? Rent PowerNow Asia power banks at malls and cafes across KL! Easy rent, easy return. Stay charged! 📱 #PowerBank #Rental #PowerNowAsia #KL",
+      "image_path": null,
+      "created_at": "2026-04-05T23:16:52.418689",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 7,
+      "type": "charging_stations",
+      "text": "📍 Find us at Pavilion KL, Mid Valley, and Sunway Pyramid! Our charging stations are conveniently located. Never run out of battery while shopping! 🛍️ #ChargingStation #PowerNowAsia #ShoppingMalls",
+      "image_path": null,
+      "created_at": "2026-04-05T23:16:52.418865",
       "used": false,
       "platforms_used": []
     }
   ],
-  "lee1healthcare": [
+  "lee1_healthcare": [
     {
       "id": 1,
-      "type": "health_tips",
-      "text": "🏥 Health Tip of the Day!\n\nStay hydrated! Drink at least 8 glasses of water daily for optimal health.\n\nBenefits of proper hydration:\n• Better digestion\n• Clearer skin\n• Improved energy levels\n• Better kidney function\n\nRemember: Prevention is better than cure!\n\n#HealthTips #Wellness #Lee1Healthcare",
+      "type": "acupuncture_weightloss",
+      "text": "🧘‍♀️ Acupuncture for Natural Weight Loss\n\nTraditional Chinese Medicine acupuncture helps with weight management by:\n• Regulating metabolism\n• Reducing food cravings\n• Improving digestion\n• Balancing hormones\n• Reducing stress eating\n\nNatural, drug-free approach to sustainable weight loss! 🌿\n\nBook your consultation today!\n\n#Acupuncture #WeightLoss #TCM #Natural #Lee1Healthcare",
       "image_path": null,
-      "created_at": "2026-04-05T23:03:00",
+      "created_at": "2026-04-05T23:15:00",
       "used": false,
       "platforms_used": []
     },
     {
       "id": 2,
-      "type": "specialist_intros",
-      "text": "👨‍⚕️ Meet Our Specialist\n\nDr. Lim specializes in cardiology with 15 years of experience.\n\nQualifications:\n• MBBS (University of Malaya)\n• Master in Cardiology\n• Fellow of the Royal College of Physicians\n\nSpecialties:\n• Heart disease prevention\n• Cardiac rehabilitation\n• Hypertension management\n\nBook your consultation today for expert care!\n\n#Cardiology #Healthcare #Specialist",
+      "type": "tcm_body_wellness",
+      "text": "🌿 Traditional Chinese Medicine for Body Wellness\n\nOur TCM treatments focus on holistic body wellness:\n• Acupuncture for pain relief\n• Herbal medicine for internal balance\n• Cupping therapy for circulation\n• Gua sha for muscle tension\n• Dietary therapy for nutrition\n\nRestore your body's natural balance and vitality! 💪\n\n#TCM #TraditionalMedicine #Wellness #BodyBalance #Lee1Healthcare",
       "image_path": null,
-      "created_at": "2026-04-05T23:04:00",
+      "created_at": "2026-04-05T23:16:00",
       "used": false,
       "platforms_used": []
     },
     {
       "id": 3,
-      "type": "preventive_care",
-      "text": "🛡️ Preventive Care Matters\n\nRegular health screenings can detect issues early and save lives!\n\nRecommended screenings:\n• Annual physical exam\n• Blood pressure check\n• Cholesterol test\n• Diabetes screening\n• Cancer screenings\n\nEarly detection = Better outcomes\n\nSchedule your annual check-up with us.\n\n#PreventiveCare #HealthCheck #EarlyDetection",
+      "type": "treatment_packages",
+      "text": "📋 Treatment Packages Available\n\nChoose the package that suits your wellness goals:\n\n1. Weight Loss Package (10 sessions)\n   • Acupuncture for metabolism\n   • Herbal consultation\n   • Dietary guidance\n\n2. Body Wellness Package (8 sessions)\n   • Full body acupuncture\n   • Cupping therapy\n   • Stress management\n\n3. Maintenance Package (4 sessions/month)\n   • Ongoing wellness support\n   • Progress monitoring\n   • Lifestyle adjustments\n\nContact us for pricing! 📞\n\n#TreatmentPackages #Wellness #Acupuncture #Lee1Healthcare",
       "image_path": null,
-      "created_at": "2026-04-05T23:05:00",
+      "created_at": "2026-04-05T23:17:00",
       "used": false,
       "platforms_used": []
+    },
+    {
+      "id": 4,
+      "type": "success_stories",
+      "text": "🎉 Success Stories\n\n\"Lost 8kg in 2 months with acupuncture! No diet pills, just natural treatment.\" - Ms. Lim\n\n\"Chronic back pain gone after 6 sessions. Thank you Dr. Lee!\" - Mr. Tan\n\n\"Stress and insomnia improved significantly. Feeling more balanced now.\" - Sarah K.\n\n\"Acupuncture helped regulate my hormones naturally. Highly recommend!\" - Jessica L.\n\nStart your wellness journey today! 🌟\n\n#SuccessStories #Testimonials #Acupuncture #Lee1Healthcare",
+      "image_path": null,
+      "created_at": "2026-04-05T23:18:00",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "health_tips",
+      "text": "💚 TCM Health Tips\n\nTraditional Chinese Medicine wisdom for daily wellness:\n\n1. Drink warm water in the morning to activate digestion\n2. Eat seasonal foods for natural balance\n3. Practice deep breathing for stress relief\n4. Get adequate sleep (10PM-6AM is ideal)\n5. Gentle exercise like Tai Chi or walking\n\nRemember: Prevention is better than cure in TCM philosophy!\n\n#HealthTips #TCM #Wellness #TraditionalMedicine #Lee1Healthcare",
+      "image_path": null,
+      "created_at": "2026-04-05T23:19:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 6,
+      "type": "acupuncture_weightloss",
+      "text": "🧘‍♀️ Lose weight naturally with TCM acupuncture! Regulate metabolism, reduce cravings, and achieve sustainable results. No harsh chemicals, just natural healing. 🌿 #Acupuncture #WeightLoss #TCM #Lee1Healthcare",
+      "image_path": null,
+      "created_at": "2026-04-05T23:16:52.418999",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "tcm_body_wellness",
+      "text": "🌿 Experience holistic wellness with Traditional Chinese Medicine. Acupuncture, herbal medicine, and dietary therapy for complete body balance. Restore your natural vitality! 💪 #TCM #Wellness #TraditionalMedicine #Lee1Healthcare",
+      "image_path": null,
+      "created_at": "2026-04-05T23:16:52.419133",
+      "used": true,
+      "platforms_used": [
+        "facebook",
+        "instagram"
+      ]
     }
   ]
 }

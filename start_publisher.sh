@@ -1,79 +1,88 @@
 #!/bin/bash
 
 # Simple Social Media Publisher Startup Script
+# Updated for Business Definitions (2026-04-05)
 
-set -e
+echo "=========================================="
+echo "📱 SIMPLE SOCIAL MEDIA PUBLISHER"
+echo "=========================================="
+echo "PowerNow Asia: Shared Power Bank Rental"
+echo "Lee1 Healthcare: TCM Acupuncture & Wellness"
+echo "=========================================="
 
-echo "========================================="
-echo "📱 Simple Social Media Publisher"
-echo "========================================="
-
-# Color definitions
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
-echo -e "${BLUE}Checking configuration...${NC}"
-
-# Check if tokens are configured
-POWERNOW_CONFIGURED=false
-LEE1_CONFIGURED=false
-
-if [ -n "$POWERNOW_FB_TOKEN" ] && [ -n "$POWERNOW_IG_TOKEN" ]; then
-    POWERNOW_CONFIGURED=true
+# Check Python
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python3 not found. Please install Python 3.8+"
+    exit 1
 fi
 
-if [ -n "$LEE1_FB_TOKEN" ] && [ -n "$LEE1_IG_TOKEN" ]; then
-    LEE1_CONFIGURED=true
+# Check if in virtual environment
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "⚠️  Not in virtual environment. Installing dependencies globally..."
+    
+    # Install required packages
+    echo "📦 Installing dependencies..."
+    pip3 install --user requests
+    
+    if [ $? -ne 0 ]; then
+        echo "❌ Failed to install dependencies"
+        exit 1
+    fi
 fi
 
-echo -e "${GREEN}=========================================${NC}"
-echo -e "${GREEN}📱 Simple Social Media Publisher${NC}"
-echo -e "${GREEN}🏢 Brands: PowerNow Asia & Lee1 Healthcare${NC}"
-echo -e "${GREEN}📊 Platforms: Facebook & Instagram${NC}"
-echo -e "${GREEN}📅 Content: Daily automated posts${NC}"
-echo -e "${GREEN}⏰ Schedule: 9:00 AM, 1:00 PM, 5:00 PM${NC}"
-echo -e "${GREEN}=========================================${NC}"
+# Check content library
+if [ ! -f "content/content_library.json" ]; then
+    echo "📝 Creating content library..."
+    mkdir -p content
+    cat > content/content_library.json << 'EOF'
+{
+  "powernow_asia": [],
+  "lee1_healthcare": []
+}
+EOF
+fi
 
-echo -e "\n${BLUE}Configuration Status:${NC}"
-if [ "$POWERNOW_CONFIGURED" = true ]; then
-    echo -e "  PowerNow Asia: ${GREEN}✅ Configured${NC}"
+# Check environment variables
+echo "🔍 Checking environment variables..."
+
+if [ -z "$POWERNOW_FB_TOKEN" ] && [ -z "$LEE1_FB_TOKEN" ]; then
+    echo "⚠️  No Facebook tokens found. Running in simulation mode."
+    echo "   To enable actual posting, set:"
+    echo "   export POWERNOW_FB_TOKEN='your_token'"
+    echo "   export LEE1_FB_TOKEN='your_token'"
+    echo "   export POWERNOW_FB_PAGE_ID='your_page_id'"
+    echo "   export LEE1_FB_PAGE_ID='your_page_id'"
+    echo "   export POWERNOW_IG_TOKEN='your_token'"
+    echo "   export LEE1_IG_TOKEN='your_token'"
+    echo "   export POWERNOW_IG_ID='your_ig_id'"
+    echo "   export LEE1_IG_ID='your_ig_id'"
+    echo ""
+    echo "📝 Running in SIMULATION MODE - No actual posts will be made"
+fi
+
+# Run the publisher
+echo ""
+echo "🚀 Starting Social Media Publisher..."
+echo "=========================================="
+
+python3 simple_social_publisher.py
+
+# Check exit code
+if [ $? -eq 0 ]; then
+    echo ""
+    echo "✅ Publisher completed successfully!"
 else
-    echo -e "  PowerNow Asia: ${YELLOW}⚠️ Not configured${NC}"
+    echo ""
+    echo "❌ Publisher encountered an error"
+    exit 1
 fi
 
-if [ "$LEE1_CONFIGURED" = true ]; then
-    echo -e "  Lee1 Healthcare: ${GREEN}✅ Configured${NC}"
-else
-    echo -e "  Lee1 Healthcare: ${YELLOW}⚠️ Not configured${NC}"
-fi
-
-if [ "$POWERNOW_CONFIGURED" = false ] && [ "$LEE1_CONFIGURED" = false ]; then
-    echo -e "\n${YELLOW}⚠️ No social media tokens configured${NC}"
-    echo -e "${YELLOW}   Running in preview mode only${NC}"
-    echo -e "\n${BLUE}To configure, set environment variables:${NC}"
-    echo -e "export POWERNOW_FB_TOKEN=\"your_token\""
-    echo -e "export POWERNOW_IG_TOKEN=\"your_token\""
-    echo -e "export LEE1_FB_TOKEN=\"your_token\""
-    echo -e "export LEE1_IG_TOKEN=\"your_token\""
-fi
-
-echo -e "\n${BLUE}Available commands:${NC}"
-echo -e "1. ${GREEN}Show status${NC}"
-echo -e "   python simple_social_publisher.py --status"
-echo -e "\n2. ${GREEN}Preview daily schedule${NC}"
-echo -e "   python simple_social_publisher.py --schedule"
-echo -e "\n3. ${GREEN}Add content to library${NC}"
-echo -e "   python simple_social_publisher.py --add"
-echo -e "\n4. ${GREEN}Post from library${NC}"
-echo -e "   python simple_social_publisher.py --post"
-echo -e "\n5. ${GREEN}Test content generation${NC}"
-echo -e "   python simple_social_publisher.py"
-
-echo -e "\n${BLUE}Example content generation:${NC}"
-python simple_social_publisher.py --schedule
-
-echo -e "\n${GREEN}✅ Publisher ready!${NC}"
-echo -e "${YELLOW}Configure tokens to enable actual posting.${NC}"
+echo ""
+echo "📋 NEXT STEPS:"
+echo "1. Review the simulation results above"
+echo "2. Add more content to content/content_library.json"
+echo "3. Get Facebook/Instagram tokens for actual posting"
+echo "4. Set environment variables and run again"
+echo ""
+echo "📞 For help: Check SOCIAL_MEDIA_SETUP.md"
+echo "=========================================="

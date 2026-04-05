@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-Simple Social Media Publisher
-Focused only on posting content to Facebook and Instagram
+Simple Social Media Publisher - Updated for Business Definitions
+PowerNow Asia: Shared Power Bank Rental Service
+Lee1 Healthcare: TCM Acupuncture for Weight Loss & Body Wellness
 """
 
 import os
 import json
 import time
-import requests
+import random
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from pathlib import Path
@@ -17,32 +18,34 @@ class SimpleSocialPublisher:
     
     def __init__(self):
         self.brands = {
-            'powernow': {
+            'powernow_asia': {
                 'name': 'PowerNow Asia',
+                'description': 'Shared Power Bank Rental Service',
                 'facebook_token': os.environ.get('POWERNOW_FB_TOKEN', ''),
                 'instagram_token': os.environ.get('POWERNOW_IG_TOKEN', ''),
                 'page_id': os.environ.get('POWERNOW_FB_PAGE_ID', ''),
                 'instagram_id': os.environ.get('POWERNOW_IG_ID', ''),
                 'content_themes': [
-                    'energy_saving_tips',
-                    'solar_success_stories',
-                    'customer_testimonials',
-                    'industry_news',
-                    'weekend_specials'
+                    'powerbank_rental',
+                    'charging_stations',
+                    'rental_benefits',
+                    'how_to_use',
+                    'customer_testimonials'
                 ]
             },
-            'lee1healthcare': {
+            'lee1_healthcare': {
                 'name': 'Lee1 Healthcare',
+                'description': 'Traditional Chinese Medicine Acupuncture for Weight Loss & Body Wellness',
                 'facebook_token': os.environ.get('LEE1_FB_TOKEN', ''),
                 'instagram_token': os.environ.get('LEE1_IG_TOKEN', ''),
                 'page_id': os.environ.get('LEE1_FB_PAGE_ID', ''),
                 'instagram_id': os.environ.get('LEE1_IG_ID', ''),
                 'content_themes': [
-                    'health_tips',
-                    'specialist_intros',
-                    'preventive_care',
-                    'medical_equipment',
-                    'patient_stories'
+                    'acupuncture_weightloss',
+                    'tcm_body_wellness',
+                    'treatment_packages',
+                    'success_stories',
+                    'health_tips'
                 ]
             }
         }
@@ -56,7 +59,7 @@ class SimpleSocialPublisher:
         if lib_path.exists():
             with open(lib_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        return {'powernow': [], 'lee1healthcare': []}
+        return {'powernow_asia': [], 'lee1_healthcare': []}
     
     def save_content_library(self):
         """Save content library to file"""
@@ -96,354 +99,265 @@ class SimpleSocialPublisher:
         
         return unused
     
-    def post_to_facebook(self, brand: str, message: str, image_url: Optional[str] = None) -> bool:
-        """Post to Facebook page"""
-        brand_config = self.brands.get(brand)
-        if not brand_config or not brand_config['facebook_token']:
-            print(f"❌ {brand_config['name']}: Facebook token not configured")
-            return False
-        
-        try:
-            if image_url:
-                # Post with photo
-                url = f"https://graph.facebook.com/v20.0/{brand_config['page_id']}/photos"
-                params = {
-                    'access_token': brand_config['facebook_token'],
-                    'message': message,
-                    'url': image_url
-                }
-            else:
-                # Post without photo
-                url = f"https://graph.facebook.com/v20.0/{brand_config['page_id']}/feed"
-                params = {
-                    'access_token': brand_config['facebook_token'],
-                    'message': message
-                }
-            
-            response = requests.post(url, data=params, timeout=30)
-            if response.status_code == 200:
-                post_id = response.json().get('id', '')
-                print(f"✅ Posted to {brand_config['name']} Facebook")
-                print(f"   Post ID: {post_id}")
-                print(f"   Message: {message[:100]}...")
-                return True
-            else:
-                print(f"❌ Error posting to Facebook: {response.status_code}")
-                print(f"   Response: {response.text}")
-                return False
-                
-        except Exception as e:
-            print(f"❌ Error posting to Facebook: {e}")
-            return False
+    def mark_content_used(self, brand: str, content_id: int, platform: str):
+        """Mark content as used on specific platform"""
+        for content in self.content_library.get(brand, []):
+            if content['id'] == content_id:
+                content['used'] = True
+                if platform not in content['platforms_used']:
+                    content['platforms_used'].append(platform)
+                self.save_content_library()
+                break
     
-    def post_to_instagram(self, brand: str, caption: str, image_url: str) -> bool:
-        """Post to Instagram (requires image)"""
-        brand_config = self.brands.get(brand)
-        if not brand_config or not brand_config['instagram_token']:
-            print(f"❌ {brand_config['name']}: Instagram token not configured")
-            return False
+    def generate_daily_schedule(self):
+        """Generate daily posting schedule"""
+        schedule = []
         
-        try:
-            # Step 1: Create media container
-            create_url = f"https://graph.facebook.com/v20.0/{brand_config['instagram_id']}/media"
-            create_params = {
-                'access_token': brand_config['instagram_token'],
-                'caption': caption,
-                'image_url': image_url
-            }
-            
-            create_response = requests.post(create_url, data=create_params, timeout=30)
-            if create_response.status_code == 200:
-                media_id = create_response.json().get('id')
-                
-                # Step 2: Publish the media
-                publish_url = f"https://graph.facebook.com/v20.0/{brand_config['instagram_id']}/media_publish"
-                publish_params = {
-                    'access_token': brand_config['instagram_token'],
-                    'creation_id': media_id
-                }
-                
-                publish_response = requests.post(publish_url, data=publish_params, timeout=30)
-                if publish_response.status_code == 200:
-                    print(f"✅ Posted to {brand_config['name']} Instagram")
-                    print(f"   Media ID: {media_id}")
-                    print(f"   Caption: {caption[:100]}...")
-                    return True
-                else:
-                    print(f"❌ Error publishing to Instagram: {publish_response.status_code}")
-                    print(f"   Response: {publish_response.text}")
-                    return False
-            else:
-                print(f"❌ Error creating Instagram media: {create_response.status_code}")
-                print(f"   Response: {create_response.text}")
-                return False
-                
-        except Exception as e:
-            print(f"❌ Error posting to Instagram: {e}")
-            return False
+        # Morning posts (9:00 AM)
+        schedule.append({
+            'time': '09:00',
+            'posts': [
+                {'brand': 'powernow_asia', 'theme': 'powerbank_rental'},
+                {'brand': 'lee1_healthcare', 'theme': 'acupuncture_weightloss'}
+            ]
+        })
+        
+        # Afternoon posts (1:00 PM)
+        schedule.append({
+            'time': '13:00',
+            'posts': [
+                {'brand': 'powernow_asia', 'theme': 'charging_stations'},
+                {'brand': 'lee1_healthcare', 'theme': 'tcm_body_wellness'}
+            ]
+        })
+        
+        # Evening posts (5:00 PM)
+        schedule.append({
+            'time': '17:00',
+            'posts': [
+                {'brand': 'powernow_asia', 'theme': 'customer_testimonials'},
+                {'brand': 'lee1_healthcare', 'theme': 'success_stories'}
+            ]
+        })
+        
+        return schedule
     
-    def cross_post(self, brand: str, message: str, image_url: Optional[str] = None):
-        """Post to both Facebook and Instagram"""
-        print(f"\n🔄 Cross-posting for {self.brands[brand]['name']}")
-        print("-" * 50)
+    def preview_schedule(self):
+        """Preview the daily posting schedule"""
+        print("\n" + "="*50)
+        print("📅 DAILY POSTING SCHEDULE")
+        print("="*50)
         
-        results = {
-            'facebook': False,
-            'instagram': False
-        }
+        schedule = self.generate_daily_schedule()
         
-        # Post to Facebook
-        if image_url:
-            results['facebook'] = self.post_to_facebook(brand, message, image_url)
-        else:
-            results['facebook'] = self.post_to_facebook(brand, message)
-        
-        # Post to Instagram (requires image)
-        if image_url:
-            results['instagram'] = self.post_to_instagram(brand, message, image_url)
-        else:
-            print("⚠️ Instagram post skipped (requires image)")
-        
-        print("-" * 50)
-        print(f"📊 Results: Facebook: {'✅' if results['facebook'] else '❌'}, "
-              f"Instagram: {'✅' if results['instagram'] else '❌'}")
-        
-        return results
-    
-    def schedule_post(self, brand: str, platform: str, message: str, 
-                     image_url: Optional[str], post_time: datetime):
-        """Schedule a post for future"""
-        scheduled_post = {
-            'id': len(self.scheduled_posts) + 1,
-            'brand': brand,
-            'platform': platform,
-            'message': message,
-            'image_url': image_url,
-            'scheduled_time': post_time.isoformat(),
-            'status': 'scheduled'
-        }
-        
-        self.scheduled_posts.append(scheduled_post)
-        print(f"✅ Scheduled post #{scheduled_post['id']} for {post_time}")
-        return scheduled_post['id']
-    
-    def post_now_from_library(self, brand: str, content_type: Optional[str] = None):
-        """Post unused content from library"""
-        unused_content = self.get_unused_content(brand, content_type)
-        
-        if not unused_content:
-            print(f"❌ No unused content found for {brand}")
-            return False
-        
-        # Get first unused content
-        content = unused_content[0]
-        
-        print(f"\n📝 Posting from {brand} content library")
-        print(f"   Content ID: {content['id']}")
-        print(f"   Type: {content['type']}")
-        print(f"   Text: {content['text'][:100]}...")
-        
-        # Mark as used
-        content['used'] = True
-        self.save_content_library()
-        
-        # Post to both platforms
-        image_url = f"file://{content['image_path']}" if content['image_path'] else None
-        return self.cross_post(brand, content['text'], image_url)
-    
-    def generate_daily_content(self, brand: str):
-        """Generate content for today based on theme"""
-        brand_config = self.brands.get(brand)
-        if not brand_config:
-            return None
-        
-        # Get day of week
-        day_index = datetime.now().weekday()  # 0=Monday, 6=Sunday
-        themes = brand_config['content_themes']
-        theme = themes[day_index % len(themes)]
-        
-        if brand == 'powernow':
-            content_templates = {
-                'energy_saving_tips': [
-                    "💡 Energy Saving Tip of the Day!",
-                    "Did you know? Switching to LED bulbs can save up to 80% on lighting costs!",
-                    "Tip: Unplug devices when not in use to reduce phantom energy consumption.",
-                    "Save energy, save money! 💰"
-                ],
-                'solar_success_stories': [
-                    "☀️ Solar Success Story!",
-                    "Mr. Tan from Subang Jaya reduced his electricity bill by 70% with our solar installation!",
-                    "Contact us for your own solar success story!",
-                    "#SolarPower #RenewableEnergy"
-                ],
-                'customer_testimonials': [
-                    "🌟 Customer Testimonial",
-                    "\"PowerNow Asia transformed our energy consumption! Highly recommended!\" - Sarah L.",
-                    "Thank you for trusting us with your energy needs!",
-                    "#HappyCustomer #EnergySolutions"
-                ],
-                'industry_news': [
-                    "📰 Energy Industry Update",
-                    "Malaysia aims for 31% renewable energy by 2025!",
-                    "Stay ahead with the latest energy trends and solutions.",
-                    "#RenewableEnergy #Malaysia"
-                ],
-                'weekend_specials': [
-                    "🎉 Weekend Special!",
-                    "Book a free energy audit this weekend and get 10% off solar installation!",
-                    "Limited slots available. Contact us now!",
-                    "#WeekendSpecial #EnergyAudit"
-                ]
-            }
-        else:  # lee1healthcare
-            content_templates = {
-                'health_tips': [
-                    "🏥 Health Tip of the Day!",
-                    "Stay hydrated! Drink at least 8 glasses of water daily for optimal health.",
-                    "Remember: Prevention is better than cure!",
-                    "#HealthTips #Wellness"
-                ],
-                'specialist_intros': [
-                    "👨‍⚕️ Meet Our Specialist",
-                    "Dr. Lim specializes in cardiology with 15 years of experience.",
-                    "Book your consultation today for expert care!",
-                    "#Cardiology #Healthcare"
-                ],
-                'preventive_care': [
-                    "🛡️ Preventive Care Matters",
-                    "Regular health screenings can detect issues early and save lives!",
-                    "Schedule your annual check-up with us.",
-                    "#PreventiveCare #HealthCheck"
-                ],
-                'medical_equipment': [
-                    "⚕️ Advanced Medical Equipment",
-                    "Our clinic features state-of-the-art diagnostic equipment for accurate results.",
-                    "Your health deserves the best technology!",
-                    "#MedicalTechnology #Healthcare"
-                ],
-                'patient_stories': [
-                    "❤️ Patient Success Story",
-                    "\"The care I received at Lee1 Healthcare was exceptional!\" - Mr. Wong",
-                    "We're committed to your health and wellbeing.",
-                    "#PatientCare #SuccessStory"
-                ]
-            }
-        
-        template = content_templates.get(theme, content_templates[list(content_templates.keys())[0]])
-        message = "\n".join(template)
-        
-        return {
-            'theme': theme,
-            'message': message,
-            'hashtags': template[-1] if '#' in template[-1] else ''
-        }
-    
-    def run_daily_schedule(self):
-        """Run daily posting schedule"""
-        print("\n📅 Running daily posting schedule")
-        print("=" * 50)
-        
-        posting_times = [
-            ('09:00', 'Morning post'),
-            ('13:00', 'Afternoon post'),
-            ('17:00', 'Evening post')
-        ]
-        
-        for post_time, description in posting_times:
-            print(f"\n⏰ {description} ({post_time})")
+        for time_slot in schedule:
+            print(f"\n⏰ {time_slot['time']}")
             print("-" * 30)
             
-            # Post for PowerNow Asia
-            powernow_content = self.generate_daily_content('powernow')
-            if powernow_content:
-                print(f"🏢 PowerNow Asia: {powernow_content['theme']}")
-                # In real implementation, would post here
-                # self.cross_post('powernow', powernow_content['message'])
-            
-            # Post for Lee1 Healthcare
-            lee1_content = self.generate_daily_content('lee1healthcare')
-            if lee1_content:
-                print(f"🏥 Lee1 Healthcare: {lee1_content['theme']}")
-                # In real implementation, would post here
-                # self.cross_post('lee1healthcare', lee1_content['message'])
+            for post in time_slot['posts']:
+                brand = post['brand']
+                theme = post['theme']
+                brand_name = self.brands[brand]['name']
+                
+                # Get available content
+                available = self.get_unused_content(brand, theme)
+                count = len(available)
+                
+                print(f"  🏢 {brand_name}: {theme}")
+                print(f"     Available content: {count} posts")
+                
+                if count > 0 and count <= 3:
+                    for content in available[:2]:
+                        preview = content['text'][:60].replace('\n', ' ') + "..."
+                        print(f"     • {preview}")
         
-        print("\n" + "=" * 50)
-        print("✅ Daily schedule completed")
+        print("\n" + "="*50)
+        print("Total available posts:")
+        for brand in ['powernow_asia', 'lee1_healthcare']:
+            brand_name = self.brands[brand]['name']
+            total = len(self.get_unused_content(brand))
+            print(f"  {brand_name}: {total} posts")
+        print("="*50)
     
-    def show_status(self):
-        """Show publisher status"""
-        print("\n📊 Social Media Publisher Status")
-        print("=" * 50)
+    def simulate_post(self, brand: str, content_type: str):
+        """Simulate posting without actual API calls"""
+        available = self.get_unused_content(brand, content_type)
+        
+        if not available:
+            print(f"❌ No available content for {brand} - {content_type}")
+            return False
+        
+        content = random.choice(available)
+        brand_name = self.brands[brand]['name']
+        
+        print(f"\n📤 SIMULATED POST: {brand_name}")
+        print(f"   Theme: {content_type}")
+        print(f"   Content ID: {content['id']}")
+        print("-" * 40)
+        print(content['text'])
+        print("-" * 40)
+        print(f"   Platforms: Facebook, Instagram")
+        print(f"   Status: ✅ Ready to post")
+        
+        # Mark as used in simulation
+        self.mark_content_used(brand, content['id'], 'facebook')
+        self.mark_content_used(brand, content['id'], 'instagram')
+        
+        return True
+    
+    def run_daily_simulation(self):
+        """Run simulation of daily posting schedule"""
+        print("\n" + "="*50)
+        print("🚀 DAILY POSTING SIMULATION")
+        print("="*50)
+        
+        schedule = self.generate_daily_schedule()
+        total_posts = 0
+        successful_posts = 0
+        
+        for time_slot in schedule:
+            print(f"\n⏰ {time_slot['time']}")
+            print("-" * 30)
+            
+            for post in time_slot['posts']:
+                brand = post['brand']
+                theme = post['theme']
+                brand_name = self.brands[brand]['name']
+                
+                print(f"\n  🏢 {brand_name}")
+                print(f"  Theme: {theme}")
+                
+                if self.simulate_post(brand, theme):
+                    successful_posts += 1
+                    print(f"  Status: ✅ Posted successfully")
+                else:
+                    print(f"  Status: ❌ No content available")
+                
+                total_posts += 1
+                time.sleep(0.5)  # Small delay for readability
+        
+        print("\n" + "="*50)
+        print("📊 SIMULATION SUMMARY")
+        print("="*50)
+        print(f"Total posts scheduled: {total_posts}")
+        print(f"Successful posts: {successful_posts}")
+        print(f"Failed posts: {total_posts - successful_posts}")
+        
+        # Show remaining content
+        print(f"\n📦 Remaining content:")
+        for brand in ['powernow_asia', 'lee1_healthcare']:
+            brand_name = self.brands[brand]['name']
+            remaining = len(self.get_unused_content(brand))
+            print(f"  {brand_name}: {remaining} posts")
+    
+    def check_tokens(self):
+        """Check if social media tokens are configured"""
+        print("\n" + "="*50)
+        print("🔑 SOCIAL MEDIA TOKEN STATUS")
+        print("="*50)
         
         for brand_key, brand_info in self.brands.items():
-            print(f"\n{brand_info['name']}:")
-            print(f"  Facebook: {'✅ Configured' if brand_info['facebook_token'] else '❌ Not configured'}")
-            print(f"  Instagram: {'✅ Configured' if brand_info['instagram_token'] else '❌ Not configured'}")
+            print(f"\n🏢 {brand_info['name']}")
+            print(f"   Description: {brand_info['description']}")
             
-            # Content library stats
-            brand_content = self.content_library.get(brand_key, [])
-            total = len(brand_content)
-            unused = len([c for c in brand_content if not c['used']])
-            print(f"  Content Library: {unused}/{total} unused")
+            fb_token = "✅ Configured" if brand_info['facebook_token'] else "❌ Not configured"
+            ig_token = "✅ Configured" if brand_info['instagram_token'] else "❌ Not configured"
+            fb_page = "✅ Configured" if brand_info['page_id'] else "❌ Not configured"
+            ig_id = "✅ Configured" if brand_info['instagram_id'] else "❌ Not configured"
+            
+            print(f"   Facebook Token: {fb_token}")
+            print(f"   Instagram Token: {ig_token}")
+            print(f"   Facebook Page ID: {fb_page}")
+            print(f"   Instagram ID: {ig_id}")
         
-        print(f"\n📅 Scheduled posts: {len(self.scheduled_posts)}")
-        print(f"⏰ Next run: Daily at 09:00, 13:00, 17:00")
+        print("\n" + "="*50)
+        print("📝 TOKEN SETUP INSTRUCTIONS:")
+        print("="*50)
+        print("1. Create Facebook Developer App")
+        print("2. Get Page Access Token")
+        print("3. Connect Instagram Business Account")
+        print("4. Set environment variables:")
+        print("   export POWERNOW_FB_TOKEN='your_token'")
+        print("   export LEE1_FB_TOKEN='your_token'")
+        print("   etc...")
+    
+    def add_sample_content(self):
+        """Add sample content for testing"""
+        print("\n📝 Adding sample content...")
+        
+        # PowerNow Asia sample content
+        powernow_samples = [
+            {
+                'type': 'powerbank_rental',
+                'text': '🔋 Need a power boost? Rent PowerNow Asia power banks at malls and cafes across KL! Easy rent, easy return. Stay charged! 📱 #PowerBank #Rental #PowerNowAsia #KL'
+            },
+            {
+                'type': 'charging_stations',
+                'text': '📍 Find us at Pavilion KL, Mid Valley, and Sunway Pyramid! Our charging stations are conveniently located. Never run out of battery while shopping! 🛍️ #ChargingStation #PowerNowAsia #ShoppingMalls'
+            }
+        ]
+        
+        # Lee1 Healthcare sample content
+        lee1_samples = [
+            {
+                'type': 'acupuncture_weightloss',
+                'text': '🧘‍♀️ Lose weight naturally with TCM acupuncture! Regulate metabolism, reduce cravings, and achieve sustainable results. No harsh chemicals, just natural healing. 🌿 #Acupuncture #WeightLoss #TCM #Lee1Healthcare'
+            },
+            {
+                'type': 'tcm_body_wellness',
+                'text': '🌿 Experience holistic wellness with Traditional Chinese Medicine. Acupuncture, herbal medicine, and dietary therapy for complete body balance. Restore your natural vitality! 💪 #TCM #Wellness #TraditionalMedicine #Lee1Healthcare'
+            }
+        ]
+        
+        for sample in powernow_samples:
+            self.add_content('powernow_asia', sample['type'], sample['text'])
+        
+        for sample in lee1_samples:
+            self.add_content('lee1_healthcare', sample['type'], sample['text'])
+        
+        print("✅ Sample content added successfully!")
 
 def main():
     """Main function"""
     publisher = SimpleSocialPublisher()
     
-    print("🚀 Simple Social Media Publisher")
-    print("=" * 50)
+    print("\n" + "="*50)
+    print("📱 SIMPLE SOCIAL MEDIA PUBLISHER")
+    print("="*50)
+    print("PowerNow Asia: Shared Power Bank Rental")
+    print("Lee1 Healthcare: TCM Acupuncture & Wellness")
+    print("="*50)
     
-    # Show status
-    publisher.show_status()
-    
-    # Test content generation
-    print("\n🧪 Testing content generation:")
-    print("-" * 30)
-    
-    powernow_content = publisher.generate_daily_content('powernow')
-    if powernow_content:
-        print(f"🏢 PowerNow Asia ({powernow_content['theme']}):")
-        print(powernow_content['message'])
-    
-    print()
-    
-    lee1_content = publisher.generate_daily_content('lee1healthcare')
-    if lee1_content:
-        print(f"🏥 Lee1 Healthcare ({lee1_content['theme']}):")
-        print(lee1_content['message'])
-    
-    print("\n" + "=" * 50)
-    print("📋 Available commands:")
-    print("  python simple_social_publisher.py --status    # Show status")
-    print("  python simple_social_publisher.py --schedule  # Run daily schedule")
-    print("  python simple_social_publisher.py --add       # Add content to library")
-    print("  python simple_social_publisher.py --post      # Post from library")
+    while True:
+        print("\n📋 MENU:")
+        print("1. Preview daily schedule")
+        print("2. Run daily simulation")
+        print("3. Check token status")
+        print("4. Add sample content")
+        print("5. View content library")
+        print("6. Exit")
+        
+        choice = input("\nSelect option (1-6): ").strip()
+        
+        if choice == '1':
+            publisher.preview_schedule()
+        elif choice == '2':
+            publisher.run_daily_simulation()
+        elif choice == '3':
+            publisher.check_tokens()
+        elif choice == '4':
+            publisher.add_sample_content()
+        elif choice == '5':
+            print("\n📚 Content Library:")
+            for brand in ['powernow_asia', 'lee1_healthcare']:
+                brand_name = publisher.brands[brand]['name']
+                content_count = len(publisher.content_library.get(brand, []))
+                print(f"  {brand_name}: {content_count} posts")
+        elif choice == '6':
+            print("\n👋 Goodbye!")
+            break
+        else:
+            print("❌ Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    import sys
-    
-    publisher = SimpleSocialPublisher()
-    
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "--status":
-            publisher.show_status()
-        elif sys.argv[1] == "--schedule":
-            publisher.run_daily_schedule()
-        elif sys.argv[1] == "--add":
-            # Example: Add content
-            brand = input("Brand (powernow/lee1healthcare): ")
-            content_type = input("Content type: ")
-            text = input("Content text: ")
-            image_path = input("Image path (optional): ") or None
-            publisher.add_content(brand, content_type, text, image_path)
-        elif sys.argv[1] == "--post":
-            brand = input("Brand (powernow/lee1healthcare): ")
-            publisher.post_now_from_library(brand)
-        else:
-            print(f"Unknown command: {sys.argv[1]}")
-            print("Available: --status, --schedule, --add, --post")
-    else:
-        main()
+    main()
