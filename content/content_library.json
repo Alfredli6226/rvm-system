@@ -1,0 +1,60 @@
+{
+  "powernow": [
+    {
+      "id": 1,
+      "type": "energy_saving_tips",
+      "text": "💡 Energy Saving Tip of the Day!\n\nDid you know? Switching to LED bulbs can save up to 80% on lighting costs!\n\nTip: Unplug devices when not in use to reduce phantom energy consumption.\n\nSave energy, save money! 💰\n\n#EnergySaving #PowerNowAsia #SustainableLiving",
+      "image_path": null,
+      "created_at": "2026-04-05T23:00:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 2,
+      "type": "solar_success_stories",
+      "text": "☀️ Solar Success Story!\n\nMr. Tan from Subang Jaya reduced his electricity bill by 70% with our solar installation!\n\n\"The installation was smooth and the savings are incredible!\" - Mr. Tan\n\nContact us for your own solar success story!\n\n#SolarPower #RenewableEnergy #PowerNowAsia",
+      "image_path": null,
+      "created_at": "2026-04-05T23:01:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 3,
+      "type": "customer_testimonials",
+      "text": "🌟 Customer Testimonial\n\n\"PowerNow Asia transformed our energy consumption! The team was professional and the results exceeded our expectations. Highly recommended!\" - Sarah L., Restaurant Owner\n\nThank you for trusting us with your energy needs!\n\n#HappyCustomer #EnergySolutions #Testimonial",
+      "image_path": null,
+      "created_at": "2026-04-05T23:02:00",
+      "used": false,
+      "platforms_used": []
+    }
+  ],
+  "lee1healthcare": [
+    {
+      "id": 1,
+      "type": "health_tips",
+      "text": "🏥 Health Tip of the Day!\n\nStay hydrated! Drink at least 8 glasses of water daily for optimal health.\n\nBenefits of proper hydration:\n• Better digestion\n• Clearer skin\n• Improved energy levels\n• Better kidney function\n\nRemember: Prevention is better than cure!\n\n#HealthTips #Wellness #Lee1Healthcare",
+      "image_path": null,
+      "created_at": "2026-04-05T23:03:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 2,
+      "type": "specialist_intros",
+      "text": "👨‍⚕️ Meet Our Specialist\n\nDr. Lim specializes in cardiology with 15 years of experience.\n\nQualifications:\n• MBBS (University of Malaya)\n• Master in Cardiology\n• Fellow of the Royal College of Physicians\n\nSpecialties:\n• Heart disease prevention\n• Cardiac rehabilitation\n• Hypertension management\n\nBook your consultation today for expert care!\n\n#Cardiology #Healthcare #Specialist",
+      "image_path": null,
+      "created_at": "2026-04-05T23:04:00",
+      "used": false,
+      "platforms_used": []
+    },
+    {
+      "id": 3,
+      "type": "preventive_care",
+      "text": "🛡️ Preventive Care Matters\n\nRegular health screenings can detect issues early and save lives!\n\nRecommended screenings:\n• Annual physical exam\n• Blood pressure check\n• Cholesterol test\n• Diabetes screening\n• Cancer screenings\n\nEarly detection = Better outcomes\n\nSchedule your annual check-up with us.\n\n#PreventiveCare #HealthCheck #EarlyDetection",
+      "image_path": null,
+      "created_at": "2026-04-05T23:05:00",
+      "used": false,
+      "platforms_used": []
+    }
+  ]
+}
